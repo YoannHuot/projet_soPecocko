@@ -1,0 +1,38 @@
+POST http://localhost:3000/api/sauces 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDVhMjM0OTE2NjJhNzE0ODA5NWE3Y2IiLCJpYXQiOjE2MTY1MjAwNDMsImV4cCI6MTYxNjYwNjQ0M30.E3C-UFWPOR-n-urmDZdK1oVfaZ7jDdMVR73WWS8YR80
+
+{
+    "_id": "okok",
+    "name": "antoine",
+    "manufacturer": "antoine",
+    "description": "antoine",
+    "mainPepper": "antoine",
+    "imageUrl": "antoine",
+    "heat": 1,
+    "userId": "605a23491662a7148095a7cb"
+}
+
+### 
+
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+
+{
+    "email": "nicolas@test.fr", 
+    "password": "1234"
+}
+
+### 
+
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "nicolas@test.fr", 
+    "password": "1234"
+}
+
+### 
+GET http://localhost:3000/api/sauces 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDVhMjM0OTE2NjJhNzE0ODA5NWE3Y2IiLCJpYXQiOjE2MTY1MjAwNDMsImV4cCI6MTYxNjYwNjQ0M30.E3C-UFWPOR-n-urmDZdK1oVfaZ7jDdMVR73WWS8YR80
