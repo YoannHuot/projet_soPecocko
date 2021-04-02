@@ -1,15 +1,33 @@
+require("dotenv").config();
+
 // variable d'ajout des extensions package.json
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const nocache = require("nocache");
+
+// variable environnement
+const connectMongo = process.env.CONNECT_MONGODB;
+
 // variable importation de la route pour authentification
 const userRoutes = require("./routes/user");
 const sauceRoutes = require("./routes/sauce");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// mongoSanitize = permet de remplacer certains caractères spéciaux qui ouvrent des failles de sécurité
+app.use(mongoSanitize());
+
+// helmet = permet de cacher l'infastrucutre de l'application
+app.use(helmet());
+
+// nocache = permet d'éviter certains problème de connexion utilisateur
+app.use(nocache());
 
 // OSWAP : Variable d'envrionnement .env (mettre les mdp dans dans des variables d'environnement) => ne pas giter le .env
 // rate-limite : express-rate-limite npm
@@ -22,10 +40,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 // connexion à la base de données mongoose
 mongoose
-	.connect(
-		"mongodb+srv://YoannH:QzNjDxWJBYYSO5S4@cluster0.ijq2e.mongodb.net/PROJET6_SOPEKOCKO?retryWrites=true&w=majority",
-		{ useNewUrlParser: true, useUnifiedTopology: true }
-	)
+	.connect(connectMongo, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => console.log("Connexion à MongoDB réussie !"))
 	.catch(() => console.log("Connexion à MongoDB échouée !"));
 

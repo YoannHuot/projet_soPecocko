@@ -1,21 +1,27 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const passwordValidator = require("../models/Password-validator");
 
 // fonction signup
 exports.signup = (req, res, next) => {
-	bcrypt
-		.hash(req.body.password, 10)
-		.then((hash) => {
-			const user = new User({
-				email: req.body.email,
-				password: hash
-			});
-			user.save()
-				.then(() => res.status(201).json({ message: "Utilisateur créé !" }))
-				.catch((error) => res.status(400).json({ error }));
-		})
-		.catch((error) => res.status(501).json({ error }));
+	let testValidation = passwordValidator.validate(req.body.password);
+	if (testValidation == true) {
+		bcrypt
+			.hash(req.body.password, 10)
+			.then((hash) => {
+				const user = new User({
+					email: req.body.email,
+					password: hash
+				});
+				user.save()
+					.then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+					.catch((error) => res.status(400).json({ error }));
+			})
+			.catch((error) => res.status(501).json({ error }));
+	} else if (testValidation == false) {
+		console.log("mot de passe invalide");
+	}
 };
 
 // fonction login
