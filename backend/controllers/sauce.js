@@ -1,5 +1,18 @@
 const Sauce = require("../models/Sauce");
 const fs = require("fs"); // file system
+const User = require("../models/User");
+
+exports.checkUser = (req, res, next) => {
+	Sauce.findOne({ _id: req.params.id })
+		.then((sauce) => {
+			if (sauce.userId === req.body.userId) {
+				next();
+			} else {
+				console.log("error : Id propriétaire de la sauce différent");
+			}
+		})
+		.catch((error) => res.status(500).json({ error }));
+};
 
 exports.createSauce = (req, res, next) => {
 	//On stocke dans une variable les données envoyées par le frontend en les transformant en objet js sous forme de chaine de caractères
@@ -52,7 +65,8 @@ exports.modifySauce = (req, res, next) => {
 // permet de supprimer une sauce
 exports.deleteSauce = (req, res, next) => {
 	const saucId = req.params.id;
-	Sauce.findOne({ _id: saucId }) // on trouve l'objet dans la BDD
+	Sauce.findOne({ _id: saucId })
+		// on trouve l'objet dans la BDD
 		.then((sauce) => {
 			const filename = sauce.imageUrl.split("/images/")[1]; // une fois trouvé, on extrait le nom du fichier à delete
 			fs.unlink(`images/${filename}`, () => {
@@ -92,6 +106,7 @@ exports.likeOrDislikeSauce = (req, res, next) => {
 			.then((sauce) => {
 				if (sauce.usersLiked.includes(req.body.userId)) {
 					// on vérifie si le tableau de la sauce trouvée possède l'ID de l'user (donc si ce dernier a déjà liké)) ==> si le tableau userLiked contient l'id du user de la requête
+
 					Sauce.updateOne(
 						// si cette confition est remplie, alors on update la sauce, toujours en la qualifiant par ID.
 						{ _id: req.params.id },

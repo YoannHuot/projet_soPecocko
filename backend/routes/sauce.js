@@ -13,7 +13,7 @@ router.get("/", auth, rateLimiter, sauceCtrl.allSauce);
 
 router.get("/:id", auth, rateLimiter, sauceCtrl.uniqueSauce);
 
-router.put("/:id", auth, multer, rateLimiter, sauceCtrl.modifySauce);
+router.put("/:id", auth, sauceCtrl.checkUser, multer, rateLimiter, sauceCtrl.modifySauce);
 
 router.delete("/:id", auth, multer, rateLimiter, sauceCtrl.deleteSauce);
 

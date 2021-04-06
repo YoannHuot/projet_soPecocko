@@ -17,6 +17,8 @@ const connectMongo = process.env.CONNECT_MONGODB;
 const userRoutes = require("./routes/user");
 const sauceRoutes = require("./routes/sauce");
 
+// crypter l'adresse mail => avec du chiffrement symétrique => conserver un hash qui est toujours le même
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -28,13 +30,6 @@ app.use(helmet());
 
 // nocache = permet d'éviter certains problème de connexion utilisateur
 app.use(nocache());
-
-// OSWAP : Variable d'envrionnement .env (mettre les mdp dans dans des variables d'environnement) => ne pas giter le .env
-// rate-limite : express-rate-limite npm
-// password-validator : voir le package (créer un modele de password + require)
-// express-mongo-sanitize
-// helmet express
-// nocache
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 
