@@ -12,7 +12,7 @@ const nocache = require("nocache");
 
 // variable environnement
 const connectMongo = process.env.CONNECT_MONGODB;
-
+const secretToken = process.env.SECRET_TOKEN;
 // variable importation de la route pour authentification
 const userRoutes = require("./routes/user");
 const sauceRoutes = require("./routes/sauce");

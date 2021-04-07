@@ -1,6 +1,6 @@
 require("dotenv").config();
 const connectCipher = process.env.CIPHER_PASSWORD;
-
+const secretToken = process.env.SECRET_TOKEN;
 //
 
 const User = require("../models/User");
@@ -51,7 +51,7 @@ exports.login = (req, res, next) => {
 					}
 					res.status(200).json({
 						userId: user._id,
-						token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+						token: jwt.sign({ userId: user._id }, secretToken, {
 							expiresIn: "24h"
 						}) // changer le random_token_secret et le mettre dans dot.env
 					});
