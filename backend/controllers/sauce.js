@@ -5,7 +5,8 @@ const User = require("../models/User");
 exports.checkUser = (req, res, next) => {
 	Sauce.findOne({ _id: req.params.id })
 		.then((sauce) => {
-			if (sauce.userId === req.body.userId) {
+			const sauceObject = JSON.parse(req.body.sauce);
+			if (sauce.userId == sauceObject.userId) {
 				next();
 			} else {
 				console.log("error : Id propriétaire de la sauce différent");

@@ -20,6 +20,8 @@ const sauceRoutes = require("./routes/sauce");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/images", express.static(path.join(__dirname, "images")));
+
 // mongoSanitize = permet de remplacer certains caractères spéciaux qui ouvrent des failles de sécurité
 app.use(mongoSanitize());
 
@@ -28,8 +30,6 @@ app.use(helmet());
 
 // nocache = permet d'éviter certains problème de connexion utilisateur
 app.use(nocache());
-
-app.use("/images", express.static(path.join(__dirname, "images")));
 
 // connexion à la base de données mongoose
 mongoose
