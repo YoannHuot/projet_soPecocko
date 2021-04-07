@@ -17,8 +17,6 @@ const connectMongo = process.env.CONNECT_MONGODB;
 const userRoutes = require("./routes/user");
 const sauceRoutes = require("./routes/sauce");
 
-// crypter l'adresse mail => avec du chiffrement symétrique => conserver un hash qui est toujours le même
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

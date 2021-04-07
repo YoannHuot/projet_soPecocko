@@ -1,25 +1,26 @@
 require("dotenv").config();
+const connectCipher = process.env.CIPHER_PASSWORD;
+
+//
+
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passwordValidator = require("../models/Password-validator");
-const connectCipher = process.env.CIPHER_PASSWORD;
 const crypto = require("crypto");
-
-// Cipher => permet de crypter les adresses mail
 
 // fonction signup
 exports.signup = (req, res, next) => {
 	let testValidation = passwordValidator.validate(req.body.password);
 	if (testValidation == true) {
-		const cipher = crypto.createCipher("aes192", connectCipher); // constante qui définit la méthode de la fonction crypto
-		var encrypted = cipher.update(req.body.email, "utf8", "hex"); // utilise la fonction crypto sur req.body.email pour cacher cette dernière
-		encrypted = encrypted + cipher.final("hex");
+		// encryptage
+		const cipher = crypto.createCipher("aes192", connectCipher);
+		const encrypted = cipher.update(req.body.email, "utf8", "hex") + cipher.final("hex"); // utilise la fonction crypto sur req.body.email pour cacher cette dernière
 		bcrypt
 			.hash(req.body.password, 10)
 			.then((hash) => {
 				const user = new User({
-					email: req.body.email,
+					email: encrypted,
 					password: hash
 				});
 				user.save()
@@ -34,8 +35,10 @@ exports.signup = (req, res, next) => {
 
 // fonction login
 exports.login = (req, res, next) => {
-	User.findOne({ email: req.body.email })
-		// il faudra décrypter le mail pour le trouver dans la bdd
+	// encryptage
+	const cipher = crypto.createCipher("aes192", connectCipher);
+	const encrypted = cipher.update(req.body.email, "utf8", "hex") + cipher.final("hex"); // utilise la fonction crypto sur req.body.email pour cacher cette dernière
+	User.findOne({ email: encrypted })
 		.then((user) => {
 			if (!user) {
 				return res.status(401).json({ error: "Utilisateur non trouvé !" });
