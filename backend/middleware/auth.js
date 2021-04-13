@@ -9,6 +9,7 @@ module.exports = (req, res, next) => {
 		const token = req.headers.authorization.split(" ")[1];
 		const decodedToken = jsonWebToken.verify(token, protectEncodeToken);
 		const userId = decodedToken.userId;
+		req.body.userConnected = userId;
 		if (req.body.userId && req.body.userId !== userId) {
 			throw "Invalid user ID";
 		} else {

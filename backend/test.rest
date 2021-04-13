@@ -19,7 +19,7 @@ POST http://localhost:3000/api/auth/signup
 Content-Type: application/json
 
 {
-    "email": "nicolas2556@test.frr", 
+    "email": "nicolas25567@test.frr", 
     "password": "12Op1drfrfr"
 }
 
@@ -29,23 +29,23 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "nicolas2556@test.frr", 
+    "email": "nicolas25567@test.frr", 
     "password": "12Op1drfrfr"
 }
 
 ### 
 GET http://localhost:3000/api/sauces
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDZkYTk3OTM4NDIzNTM4MzhkODhiODEiLCJpYXQiOjE2MTc4MDA1NjQsImV4cCI6MTYxNzg4Njk2NH0.wj3Ilv8RAaU0teOvKQ9bdL4e4-_W1ey1zcM4YhQk10E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDcwNjY0NzAzZjI0MTI4ODAyYTQzZWIiLCJpYXQiOjE2MTc5Nzg5NTQsImV4cCI6MTYxODA2NTM1NH0.X0yREQNfqiFp6nJHDWM2njg2NzMfD5KUpbhP62ZyX8E
 
 ### 
 
-PUT http://localhost:3000/api/sauces/606db83daeb08f3d9c048127
+PUT http://localhost:3000/api/sauces/6070666403f24128802a43ec
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDZkYTk3OTM4NDIzNTM4MzhkODhiODEiLCJpYXQiOjE2MTc4MDMzMDgsImV4cCI6MTYxNzg4OTcwOH0.wb1ivMQ8aCZEryROCQ03lFX68KeFR8-aFOf6SQv6aCA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDcwNjY0NzAzZjI0MTI4ODAyYTQzZWIiLCJpYXQiOjE2MTc5Nzg5NTQsImV4cCI6MTYxODA2NTM1NH0.X0yREQNfqiFp6nJHDWM2njg2NzMfD5KUpbhP62ZyX8E
 
 { 
     "likes": "0",
-    "name": "changerlasauce2",
+    "name": "changerlasauce5",
     "manufacturer": "changerlasauce",
     "description": "changerlasauce"
 }

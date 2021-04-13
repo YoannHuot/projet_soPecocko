@@ -2,19 +2,6 @@ const Sauce = require("../models/Sauce");
 const fs = require("fs"); // file system
 const User = require("../models/User");
 
-exports.checkUser = (req, res, next) => {
-	Sauce.findOne({ _id: req.params.id })
-		.then((sauce) => {
-			const sauceObject = JSON.parse(req.body.sauce);
-			if (sauce.userId == sauceObject.userId) {
-				next();
-			} else {
-				console.log("error : Id propriétaire de la sauce différent");
-			}
-		})
-		.catch((error) => res.status(500).json({ error }));
-};
-
 exports.createSauce = (req, res, next) => {
 	//On stocke dans une variable les données envoyées par le frontend en les transformant en objet js sous forme de chaine de caractères
 	const sauceObject = JSON.parse(req.body.sauce);
@@ -89,16 +76,17 @@ exports.likeOrDislikeSauce = (req, res, next) => {
 		Sauce.updateOne(
 			// appelle de la fonction updateOne
 			{ _id: req.params.id }, // en JSON, on vérifie que l'ID du tableau d'objet est égale à l'id de l'URL
-			{ $push: { usersLiked: userId } }, // on push dans le tableau usersLikes[] l'id du User qui like
-			{ $inc: { likes: +1 } } // on incrémente de le nombre de like de un
+			{
+				$push: { usersLiked: userId }, // on push dans le tableau usersLikes[] l'id du User qui like
+				$inc: { likes: 1 }
+			} // on incrémente de le nombre de like de un
 		)
 			.then(() => res.status(200).json({ message: "Like ajouté !" }))
 			.catch((error) => res.status(400).json({ error }));
 	} else if (like == -1) {
 		Sauce.updateOne(
 			{ _id: req.params.id },
-			{ $push: { usersDisliked: userId } },
-			{ $inc: { dislikes: +1 } }
+			{ $push: { usersDisliked: userId }, $inc: { dislikes: 1 } }
 		)
 			.then(() => res.status(200).json({ message: "dislike ajouté !" }))
 			.catch((error) => res.status(400).json({ error }));
@@ -111,8 +99,7 @@ exports.likeOrDislikeSauce = (req, res, next) => {
 					Sauce.updateOne(
 						// si cette confition est remplie, alors on update la sauce, toujours en la qualifiant par ID.
 						{ _id: req.params.id },
-						{ $pull: { usersLiked: userId } },
-						{ $inc: { likes: -1 } }
+						{ $pull: { usersLiked: userId }, $inc: { likes: -1 } }
 					)
 						.then(() => res.status(200).json({ message: " like retiré !" }))
 						.catch((error) => res.status(400).json({ error }));
@@ -120,8 +107,7 @@ exports.likeOrDislikeSauce = (req, res, next) => {
 					//
 					Sauce.updateOne(
 						{ _id: req.params.id },
-						{ $pull: { usersDisliked: userId } },
-						{ $inc: { dislikes: -1 } }
+						{ $pull: { usersDisliked: userId }, $inc: { dislikes: -1 } }
 					)
 						.then(() => res.status(200).json({ message: " dislike retiré !" }))
 						.catch((error) => res.status(400).json({ error }));
